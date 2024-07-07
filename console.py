@@ -113,14 +113,15 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, arg):
+    def do_create(self, line):
         """Usage: create <Class name> <param 1> <param 2> <param 3>...
         Create a new class instance with given keys/values and print its id.
         """
         try:
-            if not arg:
+            if not line:
                 raise SyntaxError()
-            my_list = arg.split(" ")
+    
+            my_list = line.split(" ")
     
             class_name = my_list[0]
             params = my_list[1:]
@@ -141,20 +142,41 @@ class HBNBCommand(cmd.Cmd):
                             value = int(value)
                     except ValueError:
                         continue
+                    
                 kwargs[key] = value
     
+            if class_name not in self.classes:
+                raise NameError("** class doesn't exist **")
+    
+            cls = self.classes[class_name]
+    
+            # Validate attributes against class definition
+            if cls.__name__ in self.types:
+                for key, val in kwargs.items():
+                    if key not in cls.__dict__:
+                        raise ValueError(f"Attribute '{key}' not found in class '{class_name}'")
+    
+                    # Convert value to the expected type
+                    expected_type = self.types[cls.__name__].get(key)
+                    if expected_type:
+                        kwargs[key] = expected_type(val)
+    
             if kwargs == {}:
-                obj = HBNBCommand.classes[class_name]()
+                obj = cls()
             else:
-                obj = HBNBCommand.classes[class_name](**kwargs)
+                obj = cls(**kwargs)
                 storage.new(obj)
+    
             print(obj.id)
             obj.save()
     
         except SyntaxError:
             print("** class name missing **")
-        except NameError:
-            print("** class doesn't exist **")
+        except NameError as e:
+            print(e)
+        except ValueError as e:
+            print(e)
+    
     
 
     def help_create(self):
