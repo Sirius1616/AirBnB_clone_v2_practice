@@ -113,14 +113,14 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, line):
+    def do_create(self, arg):
         """Usage: create <Class name> <param 1> <param 2> <param 3>...
         Create a new class instance with given keys/values and print its id.
         """
         try:
-            if not line:
+            if not arg:
                 raise SyntaxError()
-            my_list = line.split(" ")
+            my_list = arg.split(" ")
     
             class_name = my_list[0]
             params = my_list[1:]
