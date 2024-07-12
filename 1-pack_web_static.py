@@ -9,7 +9,7 @@ def do_pack():
     try:
         local("mkdir -p versions")
         
-        file_name = "versions/web_static_{}.tgz".format(time_format)
+        file_name = "versions/web_static_{}.tgz web_static/".format(time_format)
         local("tar -czvf {} web_static".format(file_name))
         
         return file_name
