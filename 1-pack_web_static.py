@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from fabric.api import local
-from datetime import datetime
+from datetime import strftime
 
 
 def do_pack():
@@ -9,7 +9,7 @@ def do_pack():
     try:
         local("mkdir -p versions")
 
-        time_format = datetime.now().strftime("%Y%m%d%H%M%S")
+        time_format = strftime("%Y%m%d%H%M%S")
         
         file_name = "versions/web_static_{}.tgz".format(time_format)
         local("tar -czvf {} web_static".format(file_name))
