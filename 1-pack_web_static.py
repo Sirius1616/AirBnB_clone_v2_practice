@@ -17,7 +17,6 @@ def do_pack():
         return file_name
 
     except Exception as e:
-        print(e)
         return None
 
 
