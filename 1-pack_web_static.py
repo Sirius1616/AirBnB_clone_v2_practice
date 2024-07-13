@@ -10,12 +10,9 @@ def do_pack():
 
     try:
         local("mkdir -p versions")
-
+        local("tar -czvf versions/web_static_{}.tgz web_static/".format(file_name))
         
-        file_name = "versions/web_static_{}.tgz".format(time_format)
-        local("tar -czvf {} web_static".format(file_name))
-        
-        return file_name
+        return "versions/web_static_{}.tgz".format(time_format)
 
     except Exception as e:
         return None
