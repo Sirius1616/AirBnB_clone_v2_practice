@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from fabric.api import local
-from datetime import strftime
+from time import strftime
 
 
 def do_pack():
